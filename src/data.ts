@@ -15,7 +15,6 @@ export const profile = {
   email: 'joaovictorsag@hotmail.com',
   github: 'https://github.com/Joaodev1409',
   linkedin: 'https://www.linkedin.com/in/joaovictorgdev',
-  cv: '/curriculo-joao-victor.pdf',
 }
 
 // Partes que não mudam com o idioma: números, ícones, código e links.
@@ -156,6 +155,7 @@ const texts = {
       projects: 'Ver projetos',
       projectsCursor: 'Ir',
       cv: 'Currículo',
+      cvHref: '/curriculo-joao-victor.pdf',
       scroll: 'role',
     },
     marquee: ['Java', 'Spring Boot', 'Python', 'PostgreSQL', 'React', 'TypeScript', 'Docker', 'Flask', 'JUnit', 'SQL', 'ETL', 'APIs REST', 'Claude Code'],
@@ -272,7 +272,8 @@ const texts = {
       lede: 'I build *back-ends*, *data* pipelines and the interfaces on top of them. Java, Spring Boot, Python and SQL day to day, React when users need to see the result.',
       projects: 'See projects',
       projectsCursor: 'Go',
-      cv: 'Résumé (PT)',
+      cv: 'Résumé',
+      cvHref: '/resume-joao-victor.pdf',
       scroll: 'scroll',
     },
     marquee: ['Java', 'Spring Boot', 'Python', 'PostgreSQL', 'React', 'TypeScript', 'Docker', 'Flask', 'JUnit', 'SQL', 'ETL', 'REST APIs', 'Claude Code'],

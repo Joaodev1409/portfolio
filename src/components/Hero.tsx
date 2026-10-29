@@ -69,7 +69,7 @@ export default function Hero({ ready }: { ready: boolean }) {
             <a href="#projetos" className="btn btn--solid" ref={cta} data-cursor={t.hero.projectsCursor} onClick={(e) => { e.preventDefault(); scrollToTarget('#projetos') }}>
               {t.hero.projects} <span aria-hidden="true">↓</span>
             </a>
-            <a href={profile.cv} className="btn btn--ghost" ref={cv} target="_blank" rel="noreferrer" data-cursor="PDF">
+            <a href={t.hero.cvHref} className="btn btn--ghost" ref={cv} target="_blank" rel="noreferrer" data-cursor="PDF">
               {t.hero.cv} <span aria-hidden="true">↗</span>
             </a>
           </div>
