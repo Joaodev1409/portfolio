@@ -19,7 +19,7 @@ export const profile = {
 
 export const stats = [
   { value: 1200, prefix: '+', suffix: '', label: 'matrículas pelo sistema online que ajudei a construir' },
-  { value: 73, prefix: '−', suffix: '%', label: 'no tempo médio das requisições do back-end do BDFISC' },
+  { value: 73, prefix: '−', suffix: '%', label: 'no tempo médio das requisições do monitoramento de notas fiscais da SEFAZ-PB' },
   { value: 59, prefix: '', suffix: '', label: 'testes automatizados no Monitoria MAP, com JUnit e Testcontainers' },
 ]
 
@@ -158,10 +158,10 @@ export const projects: Project[] = [
   {
     id: 'bdfisc',
     index: '03',
-    title: 'Monitor do BDFISC',
+    title: 'Sistema de monitoramento de notas fiscais SEFAZ-PB',
     context: 'Nutes-PB · 2025–2026',
     summary:
-      'As consultas percorriam os servidores fiscais um a um. Paralelizei as chamadas e reescrevi as queries SQL do back-end em Flask, do qual fui o maior contribuidor.',
+      'Construí todo o back-end do projeto em Flask: status dos bancos fiscais, histórico de cargas e dashboard. As consultas percorriam os servidores um a um; paralelizei as chamadas e reescrevi as queries SQL, reduzindo em 73% o tempo médio das requisições.',
     tags: ['Python', 'Flask', 'SQLAlchemy', 'pyodbc', 'SQL'],
     metric: '−73% de latência',
     code: [
@@ -226,7 +226,7 @@ export const experience = [
     period: '08/2025 — 09/2026',
     role: 'Estagiário de Desenvolvimento Full Stack',
     org: 'Nutes-PB · remoto',
-    text: 'Back-end do monitoramento de cargas do BDFISC em Flask, telas de cargas e exportação no front, code review e sprints no Jira.',
+    text: 'Construí todo o back-end do sistema de monitoramento de notas fiscais da SEFAZ-PB em Flask, com queda de 73% na latência; no front, telas de cargas e exportação. Code review e sprints no Jira.',
   },
   {
     period: '2025 — agora',
