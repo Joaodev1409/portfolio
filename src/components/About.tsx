@@ -1,9 +1,11 @@
 import { useRef } from 'react'
 import { gsap, SplitText, useGSAP, prefersReducedMotion } from '../gsap'
-import { stats } from '../data'
+import { useLang } from '../i18n'
 
 export default function About() {
   const root = useRef<HTMLElement>(null)
+  const { t } = useLang()
+  const stats = t.stats
 
   useGSAP(() => {
     if (prefersReducedMotion()) return
@@ -26,7 +28,7 @@ export default function About() {
           v: target,
           duration: 2,
           ease: 'power3.out',
-          onUpdate: () => { num.textContent = Math.round(obj.v).toLocaleString('pt-BR') },
+          onUpdate: () => { num.textContent = Math.round(obj.v).toLocaleString(t.locale) },
         }, '<0.1')
         .from(el.querySelector('.stat__line'), { scaleX: 0, duration: 1.4, ease: 'expo.out' }, '<')
     })
@@ -34,18 +36,13 @@ export default function About() {
 
   return (
     <section className="section about container" id="sobre" ref={root}>
-      <p className="eyebrow mono"><span>01</span> Sobre</p>
-      <p className="about__statement">
-        Estudo Ciência da Computação na UEPB e gosto do código que resolve um problema de verdade.
-        Já tirei uma secretaria inteira da fila com matrícula online, cortei 73% da latência de um back-end
-        com paralelismo e SQL bem escrito, e hoje ensino padrões de projeto como monitor.
-        Uso IA no desenvolvimento, sem deixar de entender cada linha que vai para produção.
-      </p>
+      <p className="eyebrow mono"><span>01</span> {t.about.eyebrow}</p>
+      <p className="about__statement">{t.about.statement}</p>
       <div className="stats">
         {stats.map((s) => (
           <div className="stat" key={s.label}>
             <div className="stat__value">
-              <span>{s.prefix}</span><span className="stat__num">{s.value.toLocaleString('pt-BR')}</span><span>{s.suffix}</span>
+              <span>{s.prefix}</span><span className="stat__num">{s.value.toLocaleString(t.locale)}</span><span>{s.suffix}</span>
             </div>
             <i className="stat__line" />
             <p>{s.label}</p>

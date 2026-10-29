@@ -1,9 +1,10 @@
 import { useRef } from 'react'
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from '../gsap'
-import { experience } from '../data'
+import { useLang, rich } from '../i18n'
 
 export default function Experience() {
   const root = useRef<HTMLElement>(null)
+  const { t } = useLang()
 
   useGSAP(() => {
     if (prefersReducedMotion()) return
@@ -30,13 +31,13 @@ export default function Experience() {
   return (
     <section className="section container" id="trajetoria" ref={root}>
       <div className="section__head">
-        <p className="eyebrow mono"><span>04</span> Trajetória</p>
-        <h2 className="title">Onde eu <em>aprendi fazendo</em></h2>
+        <p className="eyebrow mono"><span>04</span> {t.experience.eyebrow}</p>
+        <h2 className="title">{rich(t.experience.title)}</h2>
       </div>
       <div className="timeline">
         <span className="timeline__rail" aria-hidden="true"><i className="timeline__fill" /></span>
         <ol>
-          {experience.map((e) => (
+          {t.experience.items.map((e) => (
             <li className="timeline__item" key={e.role}>
               <span className="timeline__period mono">{e.period}</span>
               <div>

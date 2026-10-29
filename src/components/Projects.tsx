@@ -1,8 +1,9 @@
 import { useRef } from 'react'
 import { gsap, useGSAP, prefersReducedMotion } from '../gsap'
-import { projects, type Project } from '../data'
+import { profile, type Project } from '../data'
+import { useLang, rich } from '../i18n'
 
-function CodeWindow({ lines }: { lines: string[] }) {
+function CodeWindow({ lines }: { lines: readonly string[] }) {
   return (
     <div className="code" aria-hidden="true">
       <div className="code__bar"><i /><i /><i /></div>
@@ -19,6 +20,7 @@ function CodeWindow({ lines }: { lines: string[] }) {
 }
 
 function ProjectCard({ p }: { p: Project }) {
+  const { t } = useLang()
   return (
     <article className="project">
       <div className="project__top">
@@ -33,7 +35,7 @@ function ProjectCard({ p }: { p: Project }) {
         {p.tags.map((t) => <li key={t}>{t}</li>)}
       </ul>
       {p.link && (
-        <a className="project__link" href={p.link.href} target="_blank" rel="noreferrer" data-cursor="Abrir">
+        <a className="project__link" href={p.link.href} target="_blank" rel="noreferrer" data-cursor={t.projects.open}>
           {p.link.label} <span aria-hidden="true">↗</span>
         </a>
       )}
@@ -44,6 +46,7 @@ function ProjectCard({ p }: { p: Project }) {
 export default function Projects() {
   const root = useRef<HTMLElement>(null)
   const track = useRef<HTMLDivElement>(null)
+  const { t } = useLang()
 
   useGSAP(() => {
     if (prefersReducedMotion()) return
@@ -61,7 +64,7 @@ export default function Projects() {
           start: 'top top',
           end: () => `+=${distance()}`,
           pin: true,
-          scrub: 1,
+          scrub: true, // o Lenis já suaviza a rolagem
           invalidateOnRefresh: true,
         },
       })
@@ -96,15 +99,15 @@ export default function Projects() {
     <section className="projects" id="projetos" ref={root}>
       <div className="projects__pin">
         <div className="projects__head container">
-          <p className="eyebrow mono"><span>03</span> Projetos</p>
-          <h2 className="title">Problemas reais, <em>resolvidos</em></h2>
+          <p className="eyebrow mono"><span>03</span> {t.projects.eyebrow}</p>
+          <h2 className="title">{rich(t.projects.title)}</h2>
           <div className="projects__progress" aria-hidden="true"><i /></div>
         </div>
         <div className="projects__track" ref={track}>
-          {projects.map((p) => <ProjectCard p={p} key={p.id} />)}
-          <a className="project project--more" href="https://github.com/Joaodev1409" target="_blank" rel="noreferrer" data-cursor="GitHub">
-            <span className="mono">e mais</span>
-            <strong>Todos os repositórios no GitHub <span aria-hidden="true">↗</span></strong>
+          {t.projectList.map((p) => <ProjectCard p={p} key={p.id} />)}
+          <a className="project project--more" href={profile.github} target="_blank" rel="noreferrer" data-cursor="GitHub">
+            <span className="mono">{t.projects.more}</span>
+            <strong>{t.projects.moreTitle} <span aria-hidden="true">↗</span></strong>
           </a>
         </div>
       </div>

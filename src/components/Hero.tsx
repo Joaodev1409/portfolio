@@ -4,9 +4,10 @@ import { useMagnetic } from '../hooks/useMagnetic'
 import { scrollToTarget } from '../hooks/useLenis'
 import DotField from './DotField'
 import { profile } from '../data'
+import { useLang, rich } from '../i18n'
 
-function Clock() {
-  const fmt = () => new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Fortaleza' }).format(new Date())
+function Clock({ locale }: { locale: string }) {
+  const fmt = () => new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit', timeZone: 'America/Fortaleza' }).format(new Date())
   const [time, setTime] = useState(fmt)
   useEffect(() => {
     const id = setInterval(() => setTime(fmt()), 10_000)
@@ -21,6 +22,7 @@ export default function Hero({ ready }: { ready: boolean }) {
   const cv = useRef<HTMLAnchorElement>(null)
   useMagnetic(cta)
   useMagnetic(cv)
+  const { t } = useLang()
 
   useGSAP(() => {
     if (!ready) return
@@ -52,8 +54,8 @@ export default function Hero({ ready }: { ready: boolean }) {
       <DotField />
       <div className="hero__inner container">
         <div className="hero__meta mono" data-reveal>
-          <span className="hero__tag"><i className="pulse" /> Aberto a estágio em back-end e dados</span>
-          <span className="hero__tag">{profile.city} · <Clock /></span>
+          <span className="hero__tag"><i className="pulse" /> {t.hero.available}</span>
+          <span className="hero__tag">{profile.city} · <Clock locale={t.locale} /></span>
         </div>
 
         <h1 className="hero__name" data-reveal aria-label={`${profile.name} ${profile.surname}`}>
@@ -62,22 +64,19 @@ export default function Hero({ ready }: { ready: boolean }) {
         </h1>
 
         <div className="hero__bottom" data-reveal>
-          <p className="hero__lede">
-            Desenvolvo <em>back-ends</em>, pipelines de <em>dados</em> e as interfaces em cima deles.
-            Java, Spring Boot, Python e SQL no dia a dia, React quando o usuário precisa ver o resultado.
-          </p>
+          <p className="hero__lede">{rich(t.hero.lede)}</p>
           <div className="hero__ctas">
-            <a href="#projetos" className="btn btn--solid" ref={cta} data-cursor="Ir" onClick={(e) => { e.preventDefault(); scrollToTarget('#projetos') }}>
-              Ver projetos <span aria-hidden="true">↓</span>
+            <a href="#projetos" className="btn btn--solid" ref={cta} data-cursor={t.hero.projectsCursor} onClick={(e) => { e.preventDefault(); scrollToTarget('#projetos') }}>
+              {t.hero.projects} <span aria-hidden="true">↓</span>
             </a>
-            <a href="/curriculo-joao-victor.pdf" className="btn btn--ghost" ref={cv} target="_blank" rel="noreferrer" data-cursor="PDF">
-              Currículo <span aria-hidden="true">↗</span>
+            <a href={profile.cv} className="btn btn--ghost" ref={cv} target="_blank" rel="noreferrer" data-cursor="PDF">
+              {t.hero.cv} <span aria-hidden="true">↗</span>
             </a>
           </div>
         </div>
       </div>
       <div className="hero__scroll mono" aria-hidden="true">
-        <span>role</span><i />
+        <span>{t.hero.scroll}</span><i />
       </div>
     </section>
   )

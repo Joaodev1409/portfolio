@@ -1,10 +1,12 @@
 import { useRef } from 'react'
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from '../gsap'
-import { marquee } from '../data'
+import { useLang } from '../i18n'
 
 // Duas faixas em sentidos opostos que aceleram com a velocidade da rolagem e invertem com a direção.
 export default function Marquee() {
   const root = useRef<HTMLDivElement>(null)
+  const { t } = useLang()
+  const marquee = t.marquee
 
   useGSAP(() => {
     if (prefersReducedMotion()) return
@@ -31,7 +33,7 @@ export default function Marquee() {
 
   const words = [...marquee, ...marquee]
   return (
-    <div className="marquee" ref={root} aria-label={`Tecnologias: ${marquee.join(', ')}`}>
+    <div className="marquee" ref={root} aria-label={`${t.marqueeLabel}: ${marquee.join(', ')}`}>
       {[0, 1].map((row) => (
         <div className={`marquee__row marquee__row--${row}`} key={row} aria-hidden="true">
           <div className="marquee__track">

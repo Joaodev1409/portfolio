@@ -10,7 +10,22 @@ export const scrollToTarget = (target: string | number) => {
   else document.querySelector(target)?.scrollIntoView()
 }
 
-export const setScrollLocked = (locked: boolean) => {
+// Guarda a posição antes de remontar a página (troca de idioma) e volta para ela depois.
+let savedScroll: number | null = null
+export const rememberScroll = () => { savedScroll = window.scrollY }
+export const restoreScroll = () => {
+  if (savedScroll === null) return
+  const y = savedScroll
+  savedScroll = null
+  // O ScrollTrigger rola até o topo para medir ao recriar os gatilhos; voltamos no quadro seguinte.
+  requestAnimationFrame(() => {
+    window.scrollTo({ top: y })
+    instance?.scrollTo(y, { immediate: true, force: true })
+    ScrollTrigger.refresh()
+  })
+}
+
+export const setScrollLocked =(locked: boolean) => {
   if (locked) instance?.stop()
   else instance?.start()
   document.documentElement.classList.toggle('is-locked', locked)

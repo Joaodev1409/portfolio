@@ -1,6 +1,7 @@
 import { useRef, type PointerEvent } from 'react'
 import { gsap, useGSAP, finePointer, prefersReducedMotion } from '../gsap'
-import { stack, type StackGroup } from '../data'
+import { type StackGroup } from '../data'
+import { useLang, rich } from '../i18n'
 
 // Marcas pretas ou quase pretas (Flask, Vercel, GitHub...) somem no fundo escuro: ficam com a cor do texto.
 const isVisibleBrand = (hex: string) => {
@@ -47,6 +48,7 @@ function StackCard({ group, index }: { group: StackGroup; index: number }) {
 
 export default function Stack() {
   const root = useRef<HTMLElement>(null)
+  const { t } = useLang()
 
   useGSAP(() => {
     if (prefersReducedMotion()) return
@@ -72,11 +74,11 @@ export default function Stack() {
   return (
     <section className="section container" id="stack" ref={root}>
       <div className="section__head">
-        <p className="eyebrow mono"><span>02</span> Stack</p>
-        <h2 className="title">Ferramentas que eu <em>coloco em produção</em></h2>
+        <p className="eyebrow mono"><span>02</span> {t.stack.eyebrow}</p>
+        <h2 className="title">{rich(t.stack.title)}</h2>
       </div>
       <div className="stack-grid">
-        {stack.map((g, i) => <StackCard group={g} index={i} key={g.id} />)}
+        {t.stackGroups.map((g, i) => <StackCard group={g} index={i} key={g.id} />)}
       </div>
     </section>
   )

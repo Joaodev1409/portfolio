@@ -1,10 +1,12 @@
 import { useRef } from 'react'
 import { gsap, useGSAP, prefersReducedMotion } from '../gsap'
 import { setScrollLocked } from '../hooks/useLenis'
+import { useLang } from '../i18n'
 
 export default function Preloader({ onDone }: { onDone: () => void }) {
   const root = useRef<HTMLDivElement>(null)
   const count = useRef<HTMLSpanElement>(null)
+  const { t } = useLang()
 
   useGSAP(() => {
     if (prefersReducedMotion()) {
@@ -43,7 +45,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
     <div className="preloader" ref={root} aria-hidden="true">
       {Array.from({ length: 5 }, (_, i) => <div key={i} className="preloader__panel" />)}
       <div className="preloader__meta">
-        <span className="mono">João Victor · portfólio</span>
+        <span className="mono">{t.preloader}</span>
         <span className="preloader__count" ref={count}>000</span>
         <div className="preloader__bar"><span /></div>
       </div>

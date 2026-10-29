@@ -3,11 +3,14 @@ import { gsap, SplitText, useGSAP, prefersReducedMotion } from '../gsap'
 import { useMagnetic } from '../hooks/useMagnetic'
 import { scrollToTarget } from '../hooks/useLenis'
 import { profile } from '../data'
+import { useLang, rich } from '../i18n'
 
 export default function Contact() {
   const root = useRef<HTMLElement>(null)
   const mail = useRef<HTMLButtonElement>(null)
   const [copied, setCopied] = useState(false)
+  const { t } = useLang()
+  const c = t.contact
   useMagnetic(mail, 0.2)
 
   useGSAP(() => {
@@ -39,29 +42,27 @@ export default function Contact() {
   return (
     <footer className="contact" id="contato" ref={root}>
       <div className="container">
-        <p className="eyebrow mono"><span>05</span> Contato</p>
-        <h2 className="contact__big">
-          Vamos <em>conversar?</em>
-        </h2>
+        <p className="eyebrow mono"><span>05</span> {c.eyebrow}</p>
+        <h2 className="contact__big">{rich(c.title)}</h2>
         <div className="contact__row">
-          <button className="contact__mail" ref={mail} onClick={copy} data-cursor={copied ? 'Copiado' : 'Copiar'}>
+          <button className="contact__mail" ref={mail} onClick={copy} data-cursor={copied ? c.cursorCopied : c.cursorCopy}>
             <span>{profile.email}</span>
-            <small className="mono">{copied ? 'copiado ✓' : 'clique para copiar'}</small>
+            <small className="mono">{copied ? c.copied : c.copy}</small>
           </button>
-          <nav className="contact__links mono" aria-label="Redes">
-            <a href={`mailto:${profile.email}`}>E-mail ↗</a>
+          <nav className="contact__links mono" aria-label={c.social}>
+            <a href={`mailto:${profile.email}`}>{c.email} ↗</a>
             <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
             <a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a>
           </nav>
         </div>
         <div className="contact__foot mono">
           <span>© {new Date().getFullYear()} João Victor Guimarães</span>
-          <span>Feito com React, TypeScript e GSAP</span>
-          <button onClick={() => scrollToTarget(0)}>Voltar ao topo ↑</button>
+          <span>{c.made}</span>
+          <button onClick={() => scrollToTarget(0)}>{c.top}</button>
         </div>
       </div>
       <div className="toast mono" role="status" aria-live="polite" data-show={copied}>
-        {copied ? 'E-mail copiado para a área de transferência' : ''}
+        {copied ? c.toast : ''}
       </div>
     </footer>
   )

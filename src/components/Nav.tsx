@@ -1,15 +1,11 @@
 import { useEffect, useRef, useState, type MouseEvent } from 'react'
+import { flushSync } from 'react-dom'
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from '../gsap'
-import { scrollToTarget, setScrollLocked } from '../hooks/useLenis'
+import { rememberScroll, scrollToTarget, setScrollLocked } from '../hooks/useLenis'
 import { profile } from '../data'
+import { useLang } from '../i18n'
 
-const links = [
-  { href: '#sobre', label: 'Sobre' },
-  { href: '#stack', label: 'Stack' },
-  { href: '#projetos', label: 'Projetos' },
-  { href: '#trajetoria', label: 'Trajetória' },
-  { href: '#contato', label: 'Contato' },
-]
+const hrefs = ['#sobre', '#stack', '#projetos', '#trajetoria', '#contato']
 
 type Theme = 'dark' | 'light'
 
@@ -23,6 +19,8 @@ export default function Nav() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
   const [theme, setTheme] = useState<Theme>(currentTheme)
+  const { lang, t, setLang } = useLang()
+  const links = hrefs.map((href, i) => ({ href, label: t.nav.links[i] }))
 
   // Some ao rolar para baixo, volta ao rolar para cima.
   useGSAP(() => {
@@ -35,15 +33,18 @@ export default function Nav() {
         show(self.direction === 1 && self.scroll() > 400 ? -110 : 0)
       },
     })
-    links.forEach(({ href }) => {
+    setActive('')
+    hrefs.forEach((href) => {
       ScrollTrigger.create({
         trigger: href,
         start: 'top 50%',
         end: 'bottom 50%',
+        refreshPriority: -1, // calcula depois do pin dos projetos, que empurra as seções abaixo
         onToggle: (self) => setActive((a) => (self.isActive ? href : a === href ? '' : a)),
       })
     })
-  })
+    // As seções remontam ao trocar o idioma: os gatilhos precisam apontar para os elementos novos.
+  }, { dependencies: [lang], revertOnUpdate: true })
 
   useGSAP(() => {
     if (!menu.current) return
@@ -89,13 +90,26 @@ export default function Nav() {
     })
   }
 
+  // Troca de idioma com um fade da página nova sobre a antiga.
+  const toggleLang = () => {
+    const next = lang === 'pt' ? 'en' : 'pt'
+    rememberScroll()
+    if (!document.startViewTransition || prefersReducedMotion()) return setLang(next)
+    document.startViewTransition(() => flushSync(() => setLang(next))).ready.then(() => {
+      document.documentElement.animate(
+        { opacity: [0, 1] },
+        { duration: 500, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' },
+      )
+    })
+  }
+
   return (
     <>
       <header className={`nav${open ? ' is-menu-open' : ''}`} ref={header}>
-        <a href="#topo" className="nav__logo" onClick={(e) => go(e, '#topo')} aria-label="Voltar ao topo">
+        <a href="#topo" className="nav__logo" onClick={(e) => go(e, '#topo')} aria-label={t.nav.top}>
           jv<span>.</span>
         </a>
-        <nav className="nav__links" aria-label="Seções">
+        <nav className="nav__links" aria-label={t.nav.sections}>
           {links.map((l) => (
             <a key={l.href} href={l.href} onClick={(e) => go(e, l.href)} className={active === l.href ? 'is-active' : ''}>
               {l.label}
@@ -103,10 +117,14 @@ export default function Nav() {
           ))}
         </nav>
         <div className="nav__actions">
-          <button className="theme-toggle" onClick={toggleTheme} aria-label={`Mudar para tema ${theme === 'dark' ? 'claro' : 'escuro'}`}>
+          <button className="lang-toggle mono" onClick={toggleLang} aria-label={t.nav.lang} title={t.nav.lang}>
+            <span className={lang === 'pt' ? 'is-on' : ''}>PT</span>
+            <span className={lang === 'en' ? 'is-on' : ''}>EN</span>
+          </button>
+          <button className="theme-toggle" onClick={toggleTheme} aria-label={theme === 'dark' ? t.nav.toLight : t.nav.toDark}>
             <span className={`theme-toggle__icon is-${theme}`} />
           </button>
-          <button className={`burger${open ? ' is-open' : ''}`} onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="menu" aria-label="Menu">
+          <button className={`burger${open ? ' is-open' : ''}`} onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="menu" aria-label={t.nav.menu}>
             <span /><span />
           </button>
         </div>

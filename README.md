@@ -16,6 +16,7 @@ Site pessoal com minha stack, projetos e trajetória.
 - Projetos em scroll horizontal fixado no desktop e empilhados no celular
 - Linha da trajetória que se desenha com a rolagem
 - Cursor próprio, botões magnéticos, tema claro/escuro com View Transitions
+- Português e inglês, com troca sem perder a posição na página
 - Respeita `prefers-reduced-motion`
 
 ## Rodar
@@ -25,4 +26,4 @@ npm install
 npm run dev
 ```
 
-Build de produção em `dist/` com `npm run build`. Os textos ficam em `src/data.ts`.
+Build de produção em `dist/` com `npm run build`. Os textos dos dois idiomas ficam em `src/data.ts` (`texts.pt` e `texts.en`).

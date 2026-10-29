@@ -537,3 +537,18 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .nav.is-menu-open .burger span { background: var(--accent-ink); }
 .nav.is-menu-open .theme-toggle__icon { background: var(--accent-ink); }
 .nav.is-menu-open .theme-toggle__icon::after { background: var(--accent); }
+
+/* seletor de idioma: uma pílula com o idioma atual destacado */
+.lang-toggle {
+  position: relative; display: inline-flex; align-items: center; height: 44px; padding: 4px;
+  border: 1px solid var(--line); border-radius: 99px; transition: border-color 0.3s;
+}
+.lang-toggle:hover { border-color: var(--fg); }
+.lang-toggle span {
+  display: grid; place-items: center; height: 100%; padding-inline: 10px; border-radius: 99px;
+  color: var(--muted); transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+.lang-toggle span.is-on { background: var(--accent); color: var(--accent-ink); }
+.nav.is-menu-open .lang-toggle { border-color: rgba(12, 13, 11, 0.25); }
+.nav.is-menu-open .lang-toggle span { color: rgba(12, 13, 11, 0.6); }
+.nav.is-menu-open .lang-toggle span.is-on { background: var(--accent-ink); color: var(--accent); }
