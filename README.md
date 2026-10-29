@@ -27,3 +27,7 @@ npm run dev
 ```
 
 Build de produção em `dist/` com `npm run build`. Os textos dos dois idiomas ficam em `src/data.ts` (`texts.pt` e `texts.en`).
+
+## Deploy
+
+Publicado no GitHub Pages em https://joaodev1409.github.io/portfolio/ pelo workflow `.github/workflows/deploy.yml`, a cada push na `main`. O build usa o subcaminho `/portfolio/` (`vite.config.ts`); `npm run preview` serve o build nesse mesmo caminho para testar.
