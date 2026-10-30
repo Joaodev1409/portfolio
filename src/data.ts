@@ -150,7 +150,7 @@ const texts = {
     },
     preloader: 'João Victor · portfólio',
     hero: {
-      available: 'Aberto a estágio em back-end e dados',
+      available: 'Aberto a oportunidades em full stack, back-end e dados',
       lede: 'Desenvolvo *back-ends*, pipelines de *dados* e as interfaces em cima deles. Java, Spring Boot, Python e SQL no dia a dia, React quando o usuário precisa ver o resultado.',
       projects: 'Ver projetos',
       projectsCursor: 'Ir',
@@ -268,7 +268,7 @@ const texts = {
     },
     preloader: 'João Victor · portfolio',
     hero: {
-      available: 'Open to back-end and data internships',
+      available: 'Open to full stack, back-end and data roles',
       lede: 'I build *back-ends*, *data* pipelines and the interfaces on top of them. Java, Spring Boot, Python and SQL day to day, React when users need to see the result.',
       projects: 'See projects',
       projectsCursor: 'Go',
